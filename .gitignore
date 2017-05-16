@@ -4,3 +4,7 @@
 old/*
 load.Rdata
 .Rhistory
+.Rproj.user
+*.Rdata
+test.R
+*annotations.tsv
