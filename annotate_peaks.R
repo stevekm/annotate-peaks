@@ -1,8 +1,5 @@
 #!/usr/bin/env Rscript
 
-## USAGE: annotate_peaks.R /path/to/peaks.bed /path/to/output/annotated_peaks.tsv
-## DESCRIPTION: This script will run annotate peaks with ChIPpeakAnno, using hg19
-
 # ~~~~~ PACKAGES ~~~~~ # 
 library("optparse")
 
@@ -162,4 +159,3 @@ if (isTRUE(dir_mode)) input_items <- find_all_beds(input_items)
 validated_items <- sapply(input_items, validate_file)
 
 annotate_beds(bed_files = validated_items, genome =  genome, scriptPath = scriptPath)
-
