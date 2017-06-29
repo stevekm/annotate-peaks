@@ -10,9 +10,9 @@ msprintf <- function(fmt, ...) {
     message(sprintf(fmt, ...))
 }
 
-make_annotation_filename <- function (input_file) {
+make_annotation_filename <- function (input_file, suffix = '_annotations.tsv') {
     # Convert '/path/to/file.bed' to '/path/to/file_annotations.tsv'
-    return(file.path(dirname(input_file), gsub(pattern = '.bed', replacement = '_annotations.tsv', x = basename(input_file))))
+    return(file.path(dirname(input_file), gsub(pattern = '.bed', replacement = suffix, x = basename(input_file))))
 }
 
 check_numlines <- function(input_file, min_value = 0) {
@@ -43,7 +43,7 @@ validate_file <- function(input_file) {
     return(TRUE)
 }
 
-annotate_beds <- function(bed_files, genome, scriptPath, biodat = FALSE) {
+annotate_beds <- function(bed_files, genome, scriptPath, suffix, biodat = FALSE) {
     # annotate all .bed files
     
     # ~~~~~ GENOME ACCESS DATA ~~~~~ # 
@@ -112,7 +112,7 @@ annotate_beds <- function(bed_files, genome, scriptPath, biodat = FALSE) {
     for(i in seq_along(bed_files)){
         bed_file <- names(bed_files[i])
         process_file <- bed_files[i] # TRUE or FALSE
-        output_file <- make_annotation_filename(bed_file)
+        output_file <- make_annotation_filename(input_file = bed_file, suffix = suffix)
         msprintf("Input File:\n%s\n\n\nFile will be processed:\n%s\n\n", bed_file, process_file)
         if(isTRUE(as.logical(process_file))){
             msprintf("Reading in the BED file...\n\n")
@@ -152,13 +152,17 @@ option_list <- list(
                 metavar="genome"),
     make_option(c("-b", "--biodat"), type="character", default=FALSE,
                 dest = "biodat", help="Path to the biomaRt data file to use for annotations [default %default]",
-                metavar="biodat")
+                metavar="biodat"),
+    make_option(c("--suffix"), type="character", default='_annotations.tsv',
+                dest = "suffix", help="File suffix to append [default %default]",
+                metavar="suffix")
 )
 opt <- parse_args(OptionParser(option_list=option_list), positional_arguments = TRUE)
 
 genome <- opt$options$genome
 dir_mode <- opt$options$dir_mode 
 biodat <- opt$options$biodat
+suffix <- opt$options$suffix
 input_items <- opt$args
 
 # get script dir
@@ -173,4 +177,4 @@ if (isTRUE(dir_mode)) input_items <- find_all_beds(input_items)
 
 validated_items <- sapply(input_items, validate_file)
 
-annotate_beds(bed_files = validated_items, genome =  genome, scriptPath = scriptPath, biodat = biodat)
+annotate_beds(bed_files = validated_items, genome =  genome, scriptPath = scriptPath, biodat = biodat, suffix = suffix)
