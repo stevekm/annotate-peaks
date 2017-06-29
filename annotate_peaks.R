@@ -43,21 +43,26 @@ validate_file <- function(input_file) {
     return(TRUE)
 }
 
-annotate_beds <- function(bed_files, genome, scriptPath) {
+annotate_beds <- function(bed_files, genome, scriptPath, biodat = FALSE) {
     # annotate all .bed files
-    # check to make sure at least one files has >0 lines
+    
+    # ~~~~~ GENOME ACCESS DATA ~~~~~ # 
+    # items needed to access the genome data from the biomart servers
     genome_key <- list("hg19" = list(
         host = "grch37.ensembl.org", 
         biomart = "ENSEMBL_MART_ENSEMBL", 
         dataset = "hsapiens_gene_ensembl"
     )
-    # ,
+    # , # add more genomes here !! 
     # "mm10" = list(
     #     
     #     biomart = "ENSEMBL_MART_ENSEMBL", 
     #     dataset = "mmusculus_gene_ensembl"
     # )
     )
+    
+    # ~~~~~ VALIDATION ~~~~~ # 
+    # check to make sure at least one files has >0 lines before we try to load data, because it takes a while to load
     if ( ! genome %in% names(genome_key)) {
         msprintf("ERROR: Supplied genome '%s' is not recognized by this script\n", genome)
         msprintf("Genome options are:\n")
@@ -69,6 +74,7 @@ annotate_beds <- function(bed_files, genome, scriptPath) {
         msprintf("ERROR: No input files have enough lines to be processed\nExiting...\n\n")
         quit()
     }
+    
     # ~~~~~ LOAD DATA ~~~~~ # 
     message("\nLoading packages for annotation...\n")
     # source("https://bioconductor.org/biocLite.R")
@@ -76,7 +82,12 @@ annotate_beds <- function(bed_files, genome, scriptPath) {
     suppressPackageStartupMessages(library("ChIPpeakAnno"))
     suppressPackageStartupMessages(library("biomaRt"))
     
-    biomart_data_file <- file.path(scriptPath, "data", genome, "biomart_data.RData") # getwd()
+    if(biodat != FALSE){
+        biomart_data_file <- as.character(biodat)
+    } else {
+        biomart_data_file <- file.path(scriptPath, "data", genome, "biomart_data.RData") 
+    }
+
     msprintf("Looking for previously saved biomaRt data for %s in location:\n%s\n\n", genome, biomart_data_file)
     if(file.exists(biomart_data_file)){
         msprintf("Found biomaRt data file:\n%s\nLoading data from file...\n\n", biomart_data_file)
@@ -138,12 +149,16 @@ option_list <- list(
                 dest="dir_mode", help="Directories with peaks to annotate"),
     make_option(c("--genome"), type="character", default="hg19",
                 dest = "genome", help="Genome version to use for annotations [default %default]",
-                metavar="genome")
+                metavar="genome"),
+    make_option(c("-b", "--biodat"), type="character", default=FALSE,
+                dest = "biodat", help="Path to the biomaRt data file to use for annotations [default %default]",
+                metavar="biodat")
 )
 opt <- parse_args(OptionParser(option_list=option_list), positional_arguments = TRUE)
 
 genome <- opt$options$genome
 dir_mode <- opt$options$dir_mode 
+biodat <- opt$options$biodat
 input_items <- opt$args
 
 # get script dir
@@ -158,4 +173,4 @@ if (isTRUE(dir_mode)) input_items <- find_all_beds(input_items)
 
 validated_items <- sapply(input_items, validate_file)
 
-annotate_beds(bed_files = validated_items, genome =  genome, scriptPath = scriptPath)
+annotate_beds(bed_files = validated_items, genome =  genome, scriptPath = scriptPath, biodat = biodat)
