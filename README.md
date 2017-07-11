@@ -13,7 +13,9 @@ Specify a different genome to use:
 ```
 ./annotate_peaks.R test1.bed test2.bed --genome hg19
 ```
-- NOTE: Only `hg19` is currently supported.
+- __NOTE:__ Only `hg19` is currently supported.
+- __NOTE:__ May output duplicate annotations for different gene isoforms
+
 ## Example
 
 ```
