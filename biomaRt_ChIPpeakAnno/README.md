@@ -1,3 +1,5 @@
+Annotate peaks using the R packages `biomaRt` and `ChIPpeakAnno`. 
+
 # Usage
 Annotate all supplied `.bed` files:
 ```
