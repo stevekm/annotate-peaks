@@ -1,17 +1,17 @@
 # Usage
 Annotate all supplied `.bed` files:
 ```
-./annotate_peaks.R test1.bed test2.bed
+./annotate.R test1.bed test2.bed
 ```
 
 Annotate all `.bed` files in a directory:
 ```
-./annotate_peaks.R bed_dir_1 bed_dir_2 -d
+./annotate.R bed_dir_1 bed_dir_2 -d
 ```
 
 Specify a different genome to use:
 ```
-./annotate_peaks.R test1.bed test2.bed --genome hg19
+./annotate.R test1.bed test2.bed --genome hg19
 ```
 - __NOTE:__ Only `hg19` is currently supported.
 - __NOTE:__ May output duplicate annotations for different gene isoforms
@@ -19,7 +19,7 @@ Specify a different genome to use:
 ## Example
 
 ```
-$ ./annotate_peaks.R test_beds/test1.bed test_beds/test3.bed
+$ ./annotate.R test_beds/test1.bed test_beds/test3.bed
 WARNING: Input file does not have enough lines:
 test_beds/test3.bed
 File will not be processed
