@@ -20,6 +20,11 @@ Annotate all supplied `.bed` files:
 ./annotate.R test1.bed test2.bed
 ```
 
+# Software Requirements
+Tested with:
+- R version 3.3.0
+- ANNOVAR version: 2017-06-01 23:08:16 -0400 (Thu,  1 Jun 2017)
+
 
 # Example 
 
