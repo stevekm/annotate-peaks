@@ -18,7 +18,16 @@ Specify a different genome to use:
 - __NOTE:__ Only `hg19` is currently supported.
 - __NOTE:__ May output duplicate annotations for different gene isoforms
 
-## Example
+
+# Software Requirements
+Tested with:
+- R version 3.3.0
+- [biomaRt_2.28.0](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)
+- [ChIPpeakAnno_3.6.4](https://bioconductor.org/packages/release/bioc/html/ChIPpeakAnno.html)
+- optparse_1.3.2
+
+
+# Example
 
 ```
 $ ./annotate.R test_beds/test1.bed test_beds/test3.bed
@@ -82,10 +91,3 @@ FALSE
 
 ------------------------------
 ```
-
-# Software Requirements
-Tested with:
-- R version 3.3.0
-- [biomaRt_2.28.0](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)
-- [ChIPpeakAnno_3.6.4](https://bioconductor.org/packages/release/bioc/html/ChIPpeakAnno.html)
-- optparse_1.3.2
