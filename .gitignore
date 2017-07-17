@@ -8,3 +8,6 @@ load.Rdata
 *.Rdata
 test.R
 *annotations.tsv
+ANNOVAR/.RData
+ANNOVAR/annot-regions-annovar.sh
+ANNOVAR/test-annotations
