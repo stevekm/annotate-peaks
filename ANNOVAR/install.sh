@@ -36,8 +36,8 @@ install () {
     mm10_db_dir="${db_dir}/mm10/" 
     mkdir -p "$mm10_db_dir" 
 
-    "${bin_dir}/annovar/annotate_variation.pl" -downdb -buildver hg19 -webfrom annovar refGene "$mm10_db_dir"
-    "${bin_dir}/annovar/annotate_variation.pl" -buildver hg19 -downdb cytoBand "$mm10_db_dir"
+    "${bin_dir}/annovar/annotate_variation.pl" -downdb -buildver mm10 -webfrom annovar refGene "$mm10_db_dir"
+    "${bin_dir}/annovar/annotate_variation.pl" -buildver mm10 -downdb cytoBand "$mm10_db_dir"
     
     ) || printf "ERROR: Could not make directory for installation:\n%s\n\nExiting..." "$bin_dir" "$db_dir" && exit 1
 
